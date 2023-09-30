@@ -29,11 +29,22 @@ INSERT INTO animals (name, date_of_birth, escape_attempts, neutered, weight_kg) 
     ('Pokemon'),
     ('Digimon');
 
-UPDATE animals SET species_id = 2 WHERE name LIKE '%mon';
-UPDATE animals SET species_id = 1 WHERE species_id IS NULL;
+UPDATE animals AS a
+SET species_id = s.id
+FROM species AS s
+WHERE
+    (a.name LIKE '%mon' AND s.name = 'Digimon')
+    OR
+    (a.species_id IS NULL AND s.name = 'Pokemon');
 
-UPDATE animals SET owner_id = 1 WHERE name = 'Agumon';
-UPDATE animals SET owner_id = 2 WHERE name IN ('Gabumon', 'Pikachu');
-UPDATE animals SET owner_id = 3 WHERE name IN ('Devimon', 'Plantmon');
-UPDATE animals SET owner_id = 4 WHERE name IN ('Charmander', 'Squirtle', 'Blossom');
-UPDATE animals SET owner_id = 5 WHERE name IN ('Angemon', 'Boarmon');
+UPDATE animals AS a
+SET owner_id = o.id
+FROM owners AS o
+WHERE
+    CASE
+        WHEN a.name = 'Agumon' THEN o.full_name = 'Sam Smith'
+        WHEN a.name IN ('Gabumon', 'Pikachu') THEN o.full_name = 'Jennifer Orwell'
+        WHEN a.name IN ('Devimon', 'Plantmon') THEN o.full_name = 'Bob'
+        WHEN a.name IN ('Charmander', 'Squirtle', 'Blossom') THEN o.full_name = 'Melody Pond'
+        WHEN a.name IN ('Angemon', 'Boarmon') THEN o.full_name = 'Dean Winchester'
+    END;
