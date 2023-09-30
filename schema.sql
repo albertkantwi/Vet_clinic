@@ -44,7 +44,7 @@ CREATE TABLE specializations(
 vets_id INT NOT NULL,
 species_id INT NOT NULL,
 PRIMARY KEY(vets_id, species_id),
-CONSTRAINT fk_specializatino_vets FOREIGN KEY(vets_id) REFERENCES vets(id),
+CONSTRAINT fk_specialization_vets FOREIGN KEY(vets_id) REFERENCES vets(id),
 CONSTRAINT fk_specialization_species FOREIGN KEY(species_id) REFERENCES species(id));
 
 CREATE TABLE visits (
